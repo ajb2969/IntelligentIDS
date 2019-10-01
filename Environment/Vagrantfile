@@ -1,0 +1,31 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# All Vagrant configuration is done below. The "2" in Vagrant.configure
+# configures the configuration version (we support older styles for
+# backwards compatibility). Please don't change it unless you know what
+# you're doing.
+Vagrant.configure("2") do |config|
+  config.vm.define "blue" do |blue|
+	blue.vm.box = "bento/centos-7.6" 
+	blue.vm.network :forwarded_port, guest: 4567, host: 80
+	blue.vm.network "private_network", ip: "192.168.33.10"
+	blue.vm.provider "virtualbox" do |vb|
+		vb.memory = "1024"
+	end
+	blue.vm.provision "shell", inline: <<-SHELL
+		yum -y install tcpdump
+	SHELL
+  end	
+
+  config.vm.define "red" do |red|
+	red.vm.box = "bento/centos-7.6" 
+	red.vm.network "private_network", ip: "192.168.33.11"
+	red.vm.provider "virtualbox" do |vb|
+		vb.memory = "1024"
+	end
+	red.vm.provision "shell", inline: <<-SHELL
+		yum -y install tcpdump
+	SHELL
+  end
+end
