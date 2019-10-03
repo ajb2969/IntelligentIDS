@@ -1,44 +1,48 @@
-from threading import Barrier, Thread
 import netifaces
-import sys
 
 from scapy.all import *
+from scapy.layers.l2 import Ether
 
-class Interface_Listen(Thread):
+
+class InterfaceListen(Thread):
     """docstring for Interface_Listen."""
 
     def __init__(self, interface_name, outputfile):
         self.lock = threading.Lock()
         self.interface = interface_name
+        self.output = sys.stdout
         self.outputfile = outputfile
-        super(Interface_Listen, self).__init__()
+        super(InterfaceListen, self).__init__()
 
     def run(self):
-        print("Starting to listen on interface: ", self.interface)
+        with self.lock:
+            self.output.write("Starting to listen on interface: " + self.interface + "\n")
         self.interface_listener()
 
     def interface_listener(self):
-        print("Starting thread for ", self.interface)
+        with self.lock:
+            self.output.write("Starting thread for " + self.interface + "\n")
         sniff(iface="en0", prn=self.process_packet, count=10)
 
     def process_packet(self, pkt: Ether):
-            self.lock.acquire()
+        with self.lock:
             with open(self.outputfile, "a") as f:
-                f.write(pkt.summary() + "\n")
-            self.lock.release()
+                # Flags, protocol, payload, packet id, source/dest ports, timestamps?
+                f.write(pkt.__str__())
+                f.write("\n")
+                f.flush()
 
 
 def main():
     if len(sys.argv) == 1 or len(sys.argv) > 2:
         print("Usage: python3 capture.py <output file>")
-    else :
+    else:
         threads = []
         for interface in netifaces.interfaces():
-            print("got interface", interface)
             try:
                 # sniff packets from one or more interfaces
-                threads.append(Interface_Listen(interface, sys.argv[1]))
-            except:
+                threads.append(InterfaceListen(interface, sys.argv[1]))
+            except IOError:
                 print("Unable to create thread for interface: ", interface)
 
         for thread in threads:
@@ -46,6 +50,7 @@ def main():
 
         for thread in threads:
             thread.join()
+
 
 if __name__ == '__main__':
     main()
