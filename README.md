@@ -4,6 +4,27 @@ A little info about your project and/ or overview that explains **what** the pro
 
 ## Motivation
 A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+Project 1: data collection, data preparation, and tool choice
+
+Below are steps for data collection and data preparation with tool choice specified by each step.
+
+a. Recreate two attacks and collect data
+1. Port Sweep - Nmap
+2. DDOS - docker/VM
+
+Using Wireshark as a traffic aggregation tool, collecting pcap files.
+
+b. Data processing
+1. Use Wack tool to help in processing data
+2. Normalize data (PCA)
+3. Feature extraction - flags, protocol, payload, packet id, source/destination ports
+4. Label data - normal, attack1, attack2
+
+
+## Motivation
+A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
+
+
 ## Code style
 If you're using any code style like xo, standard etc. That will help others while contributing to your project. Ex. -
 
@@ -15,6 +36,8 @@ Ex. -
 
 ## Features
 What makes your project stand out?
+
+Collected our own data and preprocessed it ourselves.
 
 ## Code Example
 Show what the library does as concisely as possible, developers should be able to figure out **how** your project solves their problem by looking at the code example. Make sure the API you are showing off is obvious, and that your code is short and concise.
