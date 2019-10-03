@@ -23,7 +23,6 @@ b. Data processing
 A short description of the motivation behind the creation and maintenance of the project. This should explain **why** the project exists.
 
 
-
 ## Code style
 If you're using any code style like xo, standard etc. That will help others while contributing to your project. Ex. -
 
