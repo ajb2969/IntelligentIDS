@@ -6,26 +6,32 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 Vagrant.configure("2") do |config|
-  config.vm.define "blue" do |blue|
+  config.vm.define "http" do |blue|
+
 	blue.vm.box = "bento/centos-7.6" 
-	blue.vm.network :forwarded_port, guest: 4567, host: 80
-	blue.vm.network "private_network", ip: "192.168.33.10"
+	blue.vm.network :forwarded_port, guest: 80, host: 23000
+	blue.vm.network "public_network", ip: "192.168.33.10"
 	blue.vm.provider "virtualbox" do |vb|
 		vb.memory = "1024"
 	end
 	blue.vm.provision "shell", inline: <<-SHELL
-		yum -y install tcpdump
+		sudo yum -y install tcpdump
+		sudo yum install httpd -y
+		sudo systemctl start httpd
+		sudo systemctl enable httpd
+		sudo systemctl stop firewalld
 	SHELL
   end	
 
-  config.vm.define "red" do |red|
+  config.vm.define "ssh" do |red|
 	red.vm.box = "bento/centos-7.6" 
-	red.vm.network "private_network", ip: "192.168.33.11"
+	red.vm.network "public_network", ip: "192.168.33.11"
+	red.vm.network :forwarded_port, guest: 24000, host: 23001
 	red.vm.provider "virtualbox" do |vb|
 		vb.memory = "1024"
 	end
+	red.ssh.forward_agent = true
 	red.vm.provision "shell", inline: <<-SHELL
-		yum -y install tcpdump
 	SHELL
   end
 end

@@ -22,13 +22,13 @@ class InterfaceListen(Thread):
     def interface_listener(self):
         with self.lock:
             self.output.write("Starting thread for " + self.interface + "\n")
-        sniff(iface="en0", prn=self.process_packet, count=10)
+        sniff(iface=self.interface, prn=self.process_packet)
 
     def process_packet(self, pkt: Ether):
         with self.lock:
             with open(self.outputfile, "a") as f:
                 # Flags, protocol, payload, packet id, source/dest ports, timestamps?
-                f.write(pkt.__str__())
+                f.write(pkt.command())
                 f.write("\n")
                 f.flush()
 
