@@ -28,7 +28,7 @@ class InterfaceListen(Thread):
         with self.lock:
             with open(self.outputfile, "a") as f:
                 # Flags, protocol, payload, packet id, source/dest ports, timestamps?
-                f.write(pkt.__str__())
+                f.write(pkt.command())
                 f.write("\n")
                 f.flush()
 
