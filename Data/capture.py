@@ -22,7 +22,7 @@ class InterfaceListen(Thread):
     def interface_listener(self):
         with self.lock:
             self.output.write("Starting thread for " + self.interface + "\n")
-        sniff(iface="en0", prn=self.process_packet, count=10)
+        sniff(iface=self.interface, prn=self.process_packet)
 
     def process_packet(self, pkt: Ether):
         with self.lock:
