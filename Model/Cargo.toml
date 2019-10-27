@@ -1,7 +1,0 @@
-[package]
-name = "Model"
-version = "0.1.0"
-authors = ["alexbrown <ajb2969@rit.edu>"]
-edition = "2018"
-
-[dependencies]
