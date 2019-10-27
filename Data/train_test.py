@@ -1,5 +1,4 @@
 import csv
-import numpy as np
 import random
 import math
 
@@ -41,8 +40,28 @@ def split(csv_file, train, test):
         print("created incorrectly")
 
 
+def labels(train, test):
+    writer_x_train = csv.writer(open('x_train.csv', 'w'))
+    writer_y_train = csv.writer(open('y_train.csv', 'w'))
+    with open(train) as train_csv:
+        train_data = csv.reader(train_csv, delimiter=",")
+        for line in train_data:
+            if line[0] != "len":
+                writer_x_train.writerow(line[0: -1])
+                writer_y_train.writerow(line[-1])
+
+    writer_x_test = csv.writer(open('x_test.csv', 'w'))
+    writer_y_test = csv.writer(open('y_test.csv', 'w'))
+    with open(test) as test_csv:
+        test_data = csv.reader(test_csv, delimiter=",")
+        for line in test_data:
+            if line[0] != "len":
+                writer_x_test.writerow(line[0: -1])
+                writer_y_test.writerow(line[-1])
+
 def main():
     split('/Users/Laura/Desktop/IntelligentIDS/Data/combined_data_normalized.csv', 0.7, 0.3)
+    labels('train.csv', 'test.csv')
 
 if __name__ == '__main__':
     main()
