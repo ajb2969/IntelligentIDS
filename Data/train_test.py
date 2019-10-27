@@ -39,7 +39,7 @@ def split(csv_file, train, test):
     else:
         print("created incorrectly")
 
-
+ 
 def labels(train, test):
     writer_x_train = csv.writer(open('x_train.csv', 'w'))
     writer_y_train = csv.writer(open('y_train.csv', 'w'))
