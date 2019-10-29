@@ -2,6 +2,7 @@ import csv
 import random
 import math
 
+
 def split(csv_file, train, test):
     # set with all line numbers you pulled vs set with all lines
     lines = -1
@@ -39,7 +40,7 @@ def split(csv_file, train, test):
     else:
         print("created incorrectly")
 
- 
+
 def labels(train, test):
     writer_x_train = csv.writer(open('x_train.csv', 'w'))
     writer_y_train = csv.writer(open('y_train.csv', 'w'))
@@ -59,9 +60,11 @@ def labels(train, test):
                 writer_x_test.writerow(line[0: -1])
                 writer_y_test.writerow(line[-1])
 
+
 def main():
-    split('/Users/Laura/Desktop/IntelligentIDS/Data/combined_data_normalized.csv', 0.7, 0.3)
+    split('combined_data_normalized.csv', 0.7, 0.3)
     labels('train.csv', 'test.csv')
+
 
 if __name__ == '__main__':
     main()
