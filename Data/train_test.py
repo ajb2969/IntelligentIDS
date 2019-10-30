@@ -1,6 +1,7 @@
 import csv
 import random
 import math
+import sys
 
 
 def split(csv_file, train, test):
@@ -62,7 +63,7 @@ def labels(train, test):
 
 
 def main():
-    split('combined_data_normalized.csv', 0.7, 0.3)
+    split('../Data/combined_data_normalized.csv', float(sys.argv[1]), float(sys.argv[2]))
     labels('train.csv', 'test.csv')
 
 
